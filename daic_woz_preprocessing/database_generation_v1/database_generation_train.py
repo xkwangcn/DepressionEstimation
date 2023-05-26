@@ -312,21 +312,21 @@ def random_shift_fkps(fkps_coor, fkps_coor_conf):
     
     
 def sliding_window(fkps_coor, fkps_coor_conf, gaze_coor, gaze_coor_conf, 
-                   spectro, mel_spectro, text_feature, visual_sr, 
+                   visual_sr, 
                    window_size, overlap_size, output_root, ID,
-                   trans_included=False, spectro_trans=None, mel_spectro_trans=None):
+                   trans_included=False):
     
     frame_size = window_size * visual_sr
     hop_size = (window_size - overlap_size) * visual_sr
     num_frame = get_num_frame(fkps_coor, frame_size, hop_size)
     text_frame_size = 10
-    text_hop_size = get_text_hop_size(text_feature, text_frame_size, num_frame)
+    # text_hop_size = get_text_hop_size(text_feature, text_frame_size, num_frame)
     
     
     # start sliding through and generating data
     if trans_included:
-        assert spectro_trans is not None, "Transgender spectrogram should be provided"
-        assert mel_spectro_trans is not None, "Transgender mel spectrogram should be provided"
+        # assert spectro_trans is not None, "Transgender spectrogram should be provided"
+        # assert mel_spectro_trans is not None, "Transgender mel spectrogram should be provided"
         
         # expend facial keypoints by shifting along x/y/z-axis
         shifted_fc, shifted_fcc = random_shift_fkps(fkps_coor, fkps_coor_conf)
@@ -337,35 +337,35 @@ def sliding_window(fkps_coor, fkps_coor_conf, gaze_coor, gaze_coor_conf,
             frame_sample_fcc = visual_padding(fkps_coor_conf[i*hop_size:i*hop_size+frame_size], frame_size)
             frame_sample_gc = visual_padding(gaze_coor[i*hop_size:i*hop_size+frame_size], frame_size)
             frame_sample_gcc = visual_padding(gaze_coor_conf[i*hop_size:i*hop_size+frame_size], frame_size)
-            frame_sample_spec = audio_padding(spectro[:, i*hop_size:i*hop_size+frame_size], frame_size)
-            frame_sample_mspec = audio_padding(mel_spectro[:, i*hop_size:i*hop_size+frame_size], frame_size)
-            frame_sample_text = text_padding(text_feature[i*text_hop_size:i*text_hop_size+text_frame_size], text_frame_size)
+            # frame_sample_spec = audio_padding(spectro[:, i*hop_size:i*hop_size+frame_size], frame_size)
+            # frame_sample_mspec = audio_padding(mel_spectro[:, i*hop_size:i*hop_size+frame_size], frame_size)
+            # frame_sample_text = text_padding(text_feature[i*text_hop_size:i*text_hop_size+text_frame_size], text_frame_size)
             # for transgender data
             frame_sample_fc_trans = visual_padding(shifted_fc[i*hop_size:i*hop_size+frame_size], frame_size)
             frame_sample_fcc_trans = visual_padding(shifted_fcc[i*hop_size:i*hop_size+frame_size], frame_size)
-            frame_sample_spec_trans = audio_padding(spectro_trans[:, i*hop_size:i*hop_size+frame_size], frame_size)
-            frame_sample_mspec_trans = audio_padding(mel_spectro_trans[:, i*hop_size:i*hop_size+frame_size], frame_size)
-            # this 3 should stay the same so just copy so that the total length would match
+            # frame_sample_spec_trans = audio_padding(spectro_trans[:, i*hop_size:i*hop_size+frame_size], frame_size)
+            # frame_sample_mspec_trans = audio_padding(mel_spectro_trans[:, i*hop_size:i*hop_size+frame_size], frame_size)
+            # # this 3 should stay the same so just copy so that the total length would match
             frame_sample_gc_trans = frame_sample_gc
             frame_sample_gcc_trans = frame_sample_gcc
-            frame_sample_text_trans = frame_sample_text
+            # frame_sample_text_trans = frame_sample_text
             
             # start storing
             np.save(os.path.join(output_root, 'facial_keypoints', 'only_coordinate', f'{ID}-{i:02}_kps.npy'), frame_sample_fc)
             np.save(os.path.join(output_root, 'facial_keypoints', 'coordinate+confidence', f'{ID}-{i:02}_kps.npy'), frame_sample_fcc)
             np.save(os.path.join(output_root, 'gaze_vectors', 'only_coordinate', f'{ID}-{i:02}_gaze.npy'), frame_sample_gc)
             np.save(os.path.join(output_root, 'gaze_vectors', 'coordinate+confidence', f'{ID}-{i:02}_gaze.npy'), frame_sample_gcc)
-            np.save(os.path.join(output_root, 'audio', 'spectrogram', f'{ID}-{i:02}_audio.npy'), frame_sample_spec)
-            np.save(os.path.join(output_root, 'audio', 'mel-spectrogram', f'{ID}-{i:02}_audio.npy'), frame_sample_mspec)
-            np.save(os.path.join(output_root, 'text', 'sentence_embeddings', f'{ID}-{i:02}_text.npy'), frame_sample_text)
+            # np.save(os.path.join(output_root, 'audio', 'spectrogram', f'{ID}-{i:02}_audio.npy'), frame_sample_spec)
+            # np.save(os.path.join(output_root, 'audio', 'mel-spectrogram', f'{ID}-{i:02}_audio.npy'), frame_sample_mspec)
+            # np.save(os.path.join(output_root, 'text', 'sentence_embeddings', f'{ID}-{i:02}_text.npy'), frame_sample_text)
             # start storing transgender data
             np.save(os.path.join(output_root, 'facial_keypoints', 'only_coordinate', f'{ID}-{i:02}_kps_trans.npy'), frame_sample_fc_trans)
             np.save(os.path.join(output_root, 'facial_keypoints', 'coordinate+confidence', f'{ID}-{i:02}_kps_trans.npy'), frame_sample_fcc_trans)
             np.save(os.path.join(output_root, 'gaze_vectors', 'only_coordinate', f'{ID}-{i:02}_gaze_trans.npy'), frame_sample_gc_trans)
             np.save(os.path.join(output_root, 'gaze_vectors', 'coordinate+confidence', f'{ID}-{i:02}_gaze_trans.npy'), frame_sample_gcc_trans)
-            np.save(os.path.join(output_root, 'audio', 'spectrogram', f'{ID}-{i:02}_audio_trans.npy'), frame_sample_spec_trans)
-            np.save(os.path.join(output_root, 'audio', 'mel-spectrogram', f'{ID}-{i:02}_audio_trans.npy'), frame_sample_mspec_trans)
-            np.save(os.path.join(output_root, 'text', 'sentence_embeddings', f'{ID}-{i:02}_text_trans.npy'), frame_sample_text_trans)
+            # np.save(os.path.join(output_root, 'audio', 'spectrogram', f'{ID}-{i:02}_audio_trans.npy'), frame_sample_spec_trans)
+            # np.save(os.path.join(output_root, 'audio', 'mel-spectrogram', f'{ID}-{i:02}_audio_trans.npy'), frame_sample_mspec_trans)
+            # np.save(os.path.join(output_root, 'text', 'sentence_embeddings', f'{ID}-{i:02}_text_trans.npy'), frame_sample_text_trans)
             
         return num_frame*2
     
@@ -375,18 +375,18 @@ def sliding_window(fkps_coor, fkps_coor_conf, gaze_coor, gaze_coor_conf,
             frame_sample_fcc = visual_padding(fkps_coor_conf[i*hop_size:i*hop_size+frame_size], frame_size)
             frame_sample_gc = visual_padding(gaze_coor[i*hop_size:i*hop_size+frame_size], frame_size)
             frame_sample_gcc = visual_padding(gaze_coor_conf[i*hop_size:i*hop_size+frame_size], frame_size)
-            frame_sample_spec = audio_padding(spectro[:, i*hop_size:i*hop_size+frame_size], frame_size)
-            frame_sample_mspec = audio_padding(mel_spectro[:, i*hop_size:i*hop_size+frame_size], frame_size)
-            frame_sample_text = text_padding(text_feature[i*text_hop_size:i*text_hop_size+text_frame_size], text_frame_size)
+            # frame_sample_spec = audio_padding(spectro[:, i*hop_size:i*hop_size+frame_size], frame_size)
+            # frame_sample_mspec = audio_padding(mel_spectro[:, i*hop_size:i*hop_size+frame_size], frame_size)
+            # frame_sample_text = text_padding(text_feature[i*text_hop_size:i*text_hop_size+text_frame_size], text_frame_size)
             
             # start storing
             np.save(os.path.join(output_root, 'facial_keypoints', 'only_coordinate', f'{ID}-{i:02}_kps.npy'), frame_sample_fc)
             np.save(os.path.join(output_root, 'facial_keypoints', 'coordinate+confidence', f'{ID}-{i:02}_kps.npy'), frame_sample_fcc)
             np.save(os.path.join(output_root, 'gaze_vectors', 'only_coordinate', f'{ID}-{i:02}_gaze.npy'), frame_sample_gc)
             np.save(os.path.join(output_root, 'gaze_vectors', 'coordinate+confidence', f'{ID}-{i:02}_gaze.npy'), frame_sample_gcc)
-            np.save(os.path.join(output_root, 'audio', 'spectrogram', f'{ID}-{i:02}_audio.npy'), frame_sample_spec)
-            np.save(os.path.join(output_root, 'audio', 'mel-spectrogram', f'{ID}-{i:02}_audio.npy'), frame_sample_mspec)
-            np.save(os.path.join(output_root, 'text', 'sentence_embeddings', f'{ID}-{i:02}_text.npy'), frame_sample_text)
+            # np.save(os.path.join(output_root, 'audio', 'spectrogram', f'{ID}-{i:02}_audio.npy'), frame_sample_spec)
+            # np.save(os.path.join(output_root, 'audio', 'mel-spectrogram', f'{ID}-{i:02}_audio.npy'), frame_sample_mspec)
+            # np.save(os.path.join(output_root, 'text', 'sentence_embeddings', f'{ID}-{i:02}_text.npy'), frame_sample_text)
         
         return num_frame
 
@@ -394,13 +394,13 @@ def sliding_window(fkps_coor, fkps_coor_conf, gaze_coor, gaze_coor_conf,
 if __name__ == '__main__':
 
     # output root
-    root = '/cvhci/temp/wpingcheng'
+    root = '/mnt/wd1/cv_dep/2017/wpingcheng'
     root_dir = os.path.join(root, 'DAIC_WOZ-generated_database', 'train')
-    create_folders(root_dir)
+    # create_folders(root_dir)
     np.random.seed(1)
 
     # read  gt file
-    gt_path = '/cvhci/temp/wpingcheng/DAIC-WOZ_dataset/train_split_Depression_AVEC2017.csv'
+    gt_path = '/mnt/wd1/cv_dep/2017/DAIC-WOZ-Unzip/train_split_Depression_AVEC2017.csv'
     gt_df = pd.read_csv(gt_path) 
 
     # initialization
@@ -429,11 +429,11 @@ if __name__ == '__main__':
         print(f'- PHQ Binary: {phq_binary_gt}, PHQ Score: {phq_score_gt}, Subscore: {phq_subscores_gt}')
 
         # get all files path of participant
-        text_path = f'/cvhci/temp/wpingcheng/DAIC-WOZ_dataset/{patient_ID}_P/{patient_ID}_TRANSCRIPT.csv'
-        keypoints_path = f'/cvhci/temp/wpingcheng/DAIC-WOZ_dataset/{patient_ID}_P/{patient_ID}_CLNF_features3D.txt'
-        gaze_path = f'/cvhci/temp/wpingcheng/DAIC-WOZ_dataset/{patient_ID}_P/{patient_ID}_CLNF_gaze.txt'
-        audio_path = f'/cvhci/temp/wpingcheng/all_audio_files/{patient_ID}_AUDIO.wav'
-        audio_trans_path = f'/cvhci/temp/wpingcheng/all_audio_files/{patient_ID}_AUDIO_trans.wav'
+        text_path = f'/mnt/wd1/cv_dep/2017/DAIC-WOZ-Unzip/{patient_ID}_P/{patient_ID}_TRANSCRIPT.csv'
+        keypoints_path = f'/mnt/wd1/cv_dep/2017/DAIC-WOZ-Unzip/{patient_ID}_P/{patient_ID}_CLNF_features3D.txt'
+        gaze_path = f'/mnt/wd1/cv_dep/2017/DAIC-WOZ-Unzip/{patient_ID}_P/{patient_ID}_CLNF_gaze.txt'
+        # audio_path = f'/mnt/wd1/cv_dep/2017/DAIC-WOZ-Unzip/{patient_ID}_P/{patient_ID}_AUDIO.wav'
+        # audio_trans_path = f'/mnt/wd1/cv_dep/2017/DAIC-WOZ-Unzip/{patient_ID}_P/{patient_ID}_AUDIO_trans.wav'
 
         # read transcipt file
         text_df = pd.read_csv(text_path, sep='\t').fillna('')
@@ -445,12 +445,12 @@ if __name__ == '__main__':
         fkps_coor, fkps_coor_conf = load_keypoints(keypoints_path)
         visual_sr = 30  # 30Hz
 
-        # read audio file
-        audio, audio_sr = load_audio(audio_path)
-        audio_trans, audio_trans_sr = load_audio(audio_trans_path)
+        # # read audio file
+        # audio, audio_sr = load_audio(audio_path)
+        # audio_trans, audio_trans_sr = load_audio(audio_trans_path)
 
-        # extract text feature
-        text_feature = sentence_embedding(text_df, model=sent2vec)
+        # # extract text feature
+        # text_feature = sentence_embedding(text_df, model=sent2vec)
 
 
         ########################################
@@ -465,16 +465,16 @@ if __name__ == '__main__':
         filtered_gaze_coor = gaze_coor[int(first_start_time*visual_sr):int(last_stop_time*visual_sr)]
         filtered_gaze_coor_conf = gaze_coor_conf[int(first_start_time*visual_sr):int(last_stop_time*visual_sr)]
 
-        # audio
-        filtered_audio = audio_clipping(audio, audio_sr, text_df, zero_padding=True)
-        filtered_audio_trans = audio_clipping(audio_trans, audio_trans_sr, text_df, zero_padding=True)
-        # spectrogram, mel spectrogram
-        spectro = normalize(convert_spectrogram(filtered_audio, frame_size=2048, hop_size=533))
-        mel_spectro = normalize(convert_mel_spectrogram(filtered_audio, audio_sr, 
-                                                        frame_size=2048, hop_size=533, num_mel_bands=80))
-        spectro_trans = normalize(convert_spectrogram(filtered_audio_trans, frame_size=2048, hop_size=533*3))
-        mel_spectro_trans = normalize(convert_mel_spectrogram(filtered_audio_trans, audio_trans_sr, 
-                                                              frame_size=2048, hop_size=533*3, num_mel_bands=80))
+        # # audio
+        # filtered_audio = audio_clipping(audio, audio_sr, text_df, zero_padding=True)
+        # filtered_audio_trans = audio_clipping(audio_trans, audio_trans_sr, text_df, zero_padding=True)
+        # # spectrogram, mel spectrogram
+        # spectro = normalize(convert_spectrogram(filtered_audio, frame_size=2048, hop_size=533))
+        # mel_spectro = normalize(convert_mel_spectrogram(filtered_audio, audio_sr, 
+        #                                                 frame_size=2048, hop_size=533, num_mel_bands=80))
+        # spectro_trans = normalize(convert_spectrogram(filtered_audio_trans, frame_size=2048, hop_size=533*3))
+        # mel_spectro_trans = normalize(convert_mel_spectrogram(filtered_audio_trans, audio_trans_sr, 
+        #                                                       frame_size=2048, hop_size=533*3, num_mel_bands=80))
 
 
         ###################################################################
@@ -484,7 +484,7 @@ if __name__ == '__main__':
         output_root = os.path.join(root_dir, 'original_data', 'no_gender_balance')
         num_frame = sliding_window(filtered_fkps_coor, filtered_fkps_coor_conf, 
                                    filtered_gaze_coor, filtered_gaze_coor_conf,
-                                   spectro, mel_spectro, text_feature, visual_sr,
+                                   visual_sr,
                                    window_size, overlap_size, output_root, patient_ID,
                                    trans_included=False, spectro_trans=None, mel_spectro_trans=None)
 
@@ -504,9 +504,9 @@ if __name__ == '__main__':
         output_root = os.path.join(root_dir, 'original_data', 'gender_balance')
         num_frame = sliding_window(filtered_fkps_coor, filtered_fkps_coor_conf, 
                                    filtered_gaze_coor, filtered_gaze_coor_conf,
-                                   spectro, mel_spectro, text_feature, visual_sr,
+                                   visual_sr,
                                    window_size, overlap_size, output_root, patient_ID,
-                                   trans_included=True, spectro_trans=spectro_trans, mel_spectro_trans=mel_spectro_trans)
+                                   trans_included=True)
 
         # replicate GT
         for _ in range(num_frame):
@@ -529,16 +529,16 @@ if __name__ == '__main__':
         clipped_gaze_coor = visual_clipping(gaze_coor, visual_sr, text_df)
         clipped_gaze_coor_conf = visual_clipping(gaze_coor_conf, visual_sr, text_df)
 
-        # audio
-        clipped_audio = audio_clipping(audio, audio_sr, text_df, zero_padding=False)
-        clipped_audio_trans = audio_clipping(audio_trans, audio_trans_sr, text_df, zero_padding=False)
-        # spectrogram, mel spectrogram
-        spectro = normalize(convert_spectrogram(clipped_audio, frame_size=2048, hop_size=533))
-        mel_spectro = normalize(convert_mel_spectrogram(clipped_audio, audio_sr, 
-                                                        frame_size=2048, hop_size=533, num_mel_bands=80))
-        spectro_trans = normalize(convert_spectrogram(clipped_audio_trans, frame_size=2048, hop_size=533*3))
-        mel_spectro_trans = normalize(convert_mel_spectrogram(clipped_audio_trans, audio_trans_sr,
-                                                              frame_size=2048, hop_size=533*3, num_mel_bands=80))
+        # # audio
+        # clipped_audio = audio_clipping(audio, audio_sr, text_df, zero_padding=False)
+        # clipped_audio_trans = audio_clipping(audio_trans, audio_trans_sr, text_df, zero_padding=False)
+        # # spectrogram, mel spectrogram
+        # spectro = normalize(convert_spectrogram(clipped_audio, frame_size=2048, hop_size=533))
+        # mel_spectro = normalize(convert_mel_spectrogram(clipped_audio, audio_sr, 
+        #                                                 frame_size=2048, hop_size=533, num_mel_bands=80))
+        # spectro_trans = normalize(convert_spectrogram(clipped_audio_trans, frame_size=2048, hop_size=533*3))
+        # mel_spectro_trans = normalize(convert_mel_spectrogram(clipped_audio_trans, audio_trans_sr,
+        #                                                       frame_size=2048, hop_size=533*3, num_mel_bands=80))
 
 
         ##################################################################
@@ -548,9 +548,9 @@ if __name__ == '__main__':
         output_root = os.path.join(root_dir, 'clipped_data', 'no_gender_balance')
         num_frame = sliding_window(clipped_fkps_coor, clipped_fkps_coor_conf, 
                                    clipped_gaze_coor, clipped_gaze_coor_conf,
-                                   spectro, mel_spectro, text_feature, visual_sr,
+                                   visual_sr,
                                    window_size, overlap_size, output_root, patient_ID,
-                                   trans_included=False, spectro_trans=None, mel_spectro_trans=None)
+                                   trans_included=False)
 
         # replicate GT
         for _ in range(num_frame):
@@ -568,9 +568,9 @@ if __name__ == '__main__':
         output_root = os.path.join(root_dir, 'clipped_data', 'gender_balance')
         num_frame = sliding_window(clipped_fkps_coor, clipped_fkps_coor_conf, 
                                    clipped_gaze_coor, clipped_gaze_coor_conf,
-                                   spectro, mel_spectro, text_feature, visual_sr,
+                                   visual_sr,
                                    window_size, overlap_size, output_root, patient_ID,
-                                   trans_included=True, spectro_trans=spectro_trans, mel_spectro_trans=mel_spectro_trans)
+                                   trans_included=True)
 
         # replicate GT
         for _ in range(num_frame):

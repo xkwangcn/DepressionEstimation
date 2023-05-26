@@ -40,7 +40,7 @@ def main(dataloaders, visual_net, evaluator, base_logger, writer, config, args, 
         log_and_print(base_logger, f'Epoch: {epoch}  Current Best Test for f1-score: {test_best_f1_score} at epoch {test_epoch_best_f1}')
         log_and_print(base_logger, f'Epoch: {epoch}  Current Best Test for accuracy: {test_best_acc} at epoch {test_epoch_best_acc}')
 
-        for mode in ['train', 'validation', 'test']:
+        for mode in ['train', 'validation', 'test']: # , 'test'
             mode_start_time = time.time()
 
             phq_score_gt = []
@@ -130,7 +130,7 @@ def main(dataloaders, visual_net, evaluator, base_logger, writer, config, args, 
                         optimizer.second_step(zero_grad=True)
                     
                     else:
-                        # only one time forward-backward pass 
+                        # only one time forward-backward pass
                         probs = model_processing(input=data)
                         loss = compute_loss(criterion, probs, gt, config['EVALUATOR'], args, 
                                             use_soft_label=config['CRITERION']['USE_SOFT_LABEL'])
@@ -147,6 +147,7 @@ def main(dataloaders, visual_net, evaluator, base_logger, writer, config, args, 
                 pred_score = compute_score(probs, config['EVALUATOR'], args)
                 phq_score_pred.extend([pred_score[i].item() for i in range(batch_size)])  # 1D list
                 phq_binary_pred.extend([1 if pred_score[i].item() >= config['PHQ_THRESHOLD'] else 0 for i in range(batch_size)])
+                # 判读是否有抑郁症，大于10分则抑郁
                 # phq_binary_pred.extend([pred_score[i].item() for i in range(batch_size)])
                 
                 if mode == 'train' or mode == 'validation':
@@ -172,7 +173,7 @@ def main(dataloaders, visual_net, evaluator, base_logger, writer, config, args, 
 
                 batch_number += 1
 
-            # information per mode
+            # information per mode, 20代表只打印了前20个
             print('PHQ Score prediction: {}'.format(phq_score_pred[:20]))
             print('PHQ Score ground truth: {}'.format(phq_score_gt[:20]))
 
@@ -313,28 +314,29 @@ if __name__ == '__main__':
                         type=str,
                         help="path to yaml file",
                         required=False,
-                        default='config/config_phq-subscores.yaml')
+                        default=r'/home/wangxinke/codefiles/DepressionEstimation/models/Visual_ConvLSTM/config/config_phq-subscores.yaml')
     parser.add_argument('--device',
                         type=str,
                         help="set up torch device: 'cpu' or 'cuda' (GPU)",
                         required=False,
-                        default=torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
+                        default= torch.device('cuda' if torch.cuda.is_available() else 'cpu'))#'cuda:1'
     # remember to set the gpu device number
     parser.add_argument('--gpu',
                         type=str,
                         help='id of gpu device(s) to be used',
                         required=False,
-                        default='2, 3')
+                        default='2')
     parser.add_argument('--save',
                         type=bool,
                         help='if set true, save the best model',
                         required=False,
-                        default=False)
+                        default=True)
     args = parser.parse_args()
 
     # set up GPU
-    if args.device == 'cuda':
-        os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
+    # if args.device == 'cuda':
+    os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
+    torch.cuda.set_device(1)
 
     # load config file into dict() format
     config = YamlConfig(args.config_file)

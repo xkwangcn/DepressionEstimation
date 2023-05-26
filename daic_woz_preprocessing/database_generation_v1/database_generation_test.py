@@ -322,13 +322,13 @@ def sliding_window(fkps_coor, fkps_coor_conf, gaze_coor, gaze_coor_conf,
 if __name__ == '__main__':
 
     # output root
-    root = '/cvhci/temp/wpingcheng'
+    root = '/mnt/wd1/cv_dep/2017/wpingcheng'
     root_dir = os.path.join(root, 'DAIC_WOZ-generated_database', 'test')
     create_folders(root_dir)
     np.random.seed(1)
 
     # read gt file
-    gt_path = '/cvhci/temp/wpingcheng/DAIC-WOZ_dataset/full_test_split.csv'
+    gt_path = '/mnt/wd1/cv_dep/2017/DAIC-WOZ-Unzip/full_test_split.csv'
     gt_df = pd.read_csv(gt_path)
 
     # initialization
@@ -356,10 +356,10 @@ if __name__ == '__main__':
         # print(f'- PHQ Binary: {phq_binary_gt}, PHQ Score: {phq_score_gt}, Subscore: {phq_subscores_gt}')
 
         # get all files path of participant
-        text_path = f'/cvhci/temp/wpingcheng/DAIC-WOZ_dataset/{patient_ID}_P/{patient_ID}_TRANSCRIPT.csv'
-        keypoints_path = f'/cvhci/temp/wpingcheng/DAIC-WOZ_dataset/{patient_ID}_P/{patient_ID}_CLNF_features3D.txt'
-        gaze_path = f'/cvhci/temp/wpingcheng/DAIC-WOZ_dataset/{patient_ID}_P/{patient_ID}_CLNF_gaze.txt'
-        audio_path = f'/cvhci/temp/wpingcheng/DAIC-WOZ_dataset/{patient_ID}_P/{patient_ID}_AUDIO.wav'
+        text_path = f'/mnt/wd1/cv_dep/2017/DAIC-WOZ-Unzip/{patient_ID}_P/{patient_ID}_TRANSCRIPT.csv'
+        keypoints_path = f'/mnt/wd1/cv_dep/2017/DAIC-WOZ-Unzip/{patient_ID}_P/{patient_ID}_CLNF_features3D.txt'
+        gaze_path = f'/mnt/wd1/cv_dep/2017/DAIC-WOZ-Unzip/{patient_ID}_P/{patient_ID}_CLNF_gaze.txt'
+        audio_path = f'/mnt/wd1/cv_dep/2017/DAIC-WOZ-Unzip/{patient_ID}_P/{patient_ID}_AUDIO.wav'
 
         # read transcipt file
         text_df = pd.read_csv(text_path, sep='\t').fillna('')

@@ -6,14 +6,69 @@ scikit-image
 librosa
 Pillow
 cython
-pytorch
-tensorflow>=2.0.0
+# pytorch
+tensorflow==2.8.0
 tensorboard
 tensorflow-hub
-tensorflow-estimator==2.3.0
+tensorflow-estimator==2.8.0
 opencv-python
 autolab_core
 h5py
 imgaug
 Wave
 IPython[all]
+
+# pip3 install -r requirements.txt -i https://pypi.mirrors.ustc.edu.cn/simple --ignore-installed
+# pip uninstall protobuf
+# pip install protobuf==3.19.6 -i https://pypi.mirrors.ustc.edu.cn/simple
+# pip install sentence-transformers i https://pypi.mirrors.ustc.edu.cn/simple
+# Successfully built curio
+# Installing collected packages: webencodings, wcwidth, Wave, tf-estimator-nightly, tensorflow-estimator, tensorboard-plugin-wit, sortedcontainers, snowballstemmer, Send2Trash, pytz, pyasn1, pure-eval, ptyprocess, pickleshare, msgpack, mistune, libclang, keras, ipython-genutils, flatbuffers, fastjsonschema, executing, backcall, appdirs, zipp, wrapt, widgetsnbextension, wheel, websocket-client, webcolors, urllib3, uri-template, tzdata, typing-extensions, traitlets, tqdm, tornado, tomli, toml, tinycss2, threadpoolctl, testpath, termcolor, tensorflow-io-gcs-filesystem, tensorboard-data-server, sphinxcontrib-serializinghtml, sphinxcontrib-qthelp, sphinxcontrib-jsmath, sphinxcontrib-htmlhelp, sphinxcontrib-devhelp, sphinxcontrib-applehelp, soupsieve, sniffio, six, setuptools, setproctitle, ruamel.yaml.clib, rsa, rfc3986-validator, pyzmq, pyyaml, python-json-logger, pyrsistent, pyparsing, pygments, pycparser, pyasn1-modules, py, psutil, protobuf, prompt-toolkit, prometheus-client, pluggy, platformdirs, Pillow, pexpect, pathspec, parso, pandocfilters, packaging, oauthlib, numpy, networkx, nest-asyncio, mypy-extensions, MarkupSafe, llvmlite, lazy_loader, kiwisolver, jupyterlab-widgets, jupyterlab-pygments, jsonpointer, joblib, iniconfig, imagesize, idna, grpcio, gast, fqdn, fonttools, exceptiongroup, entrypoints, docutils, dill, defusedxml, decorator, debugpy, cython, cycler, curio, colorlog, click, charset-normalizer, certifi, cachetools, babel, audioread, attrs, async-generator, alabaster, absl-py, werkzeug, tifffile, terminado, tensorflow-hub, soxr, Shapely, scipy, ruamel.yaml, rfc3339-validator, requests, qtpy, PyWavelets, python-dateutil, pytest, outcome, opt-einsum, opencv-python, numba, multiprocess, matplotlib-inline, keras-preprocessing, jupyter-core, jsonschema, Jinja2, jedi, importlib-resources, importlib-metadata, imageio, h5py, google-pasta, google-auth, contourpy, comm, cffi, bleach, black, beautifulsoup4, astunparse, asttokens, anyio, trio, stack-data, sphinx, soundfile, scikit-learn, scikit-image, requests-oauthlib, pytest-asyncio, pooch, pandas, nbformat, matplotlib, markdown, jupyter-server-terminals, jupyter-client, arrow, argon2-cffi-bindings, sphinxcontrib-jquery, nbclient, librosa, isoduration, IPython, imgaug, google-auth-oauthlib, docrepr, autolab_core, argon2-cffi, tensorboard, sphinx-rtd-theme, nbconvert, ipykernel, tensorflow, qtconsole, jupyter-events, ipywidgets, ipyparallel, jupyter-server, notebook-shim, nbclassic, notebook
+# ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+# spyder 5.3.3 requires pyqt5<5.16, which is not installed.
+# spyder 5.3.3 requires pyqtwebengine<5.16, which is not installed.
+# daal4py 2021.6.0 requires daal==2021.4.0, which is not installed.
+# spyder 5.3.3 requires ipython<8.0.0,>=7.31.1, but you have ipython 8.12.0 which is incompatible.
+# spyder 5.3.3 requires qtconsole<5.4.0,>=5.3.2, but you have qtconsole 5.4.2 which is incompatible.
+# spyder-kernels 2.3.3 requires ipython<8,>=7.31.1; python_version >= "3", but you have ipython 8.12.0 which is incompatible.
+# spyder-kernels 2.3.3 requires jupyter-client<8,>=7.3.4; python_version >= "3", but you have jupyter-client 8.2.0 which is incompatible.
+# jupyterlab 3.4.4 requires jupyter-server~=1.16, but you have jupyter-server 2.5.0 which is incompatible.
+# jupyterlab-server 2.10.3 requires jupyter-server~=1.4, but you have jupyter-server 2.5.0 which is incompatible.
+# distributed 2022.7.0 requires tornado<6.2,>=6.0.3, but you have tornado 6.2 which is incompatible.
+# conda-repo-cli 1.0.20 requires clyent==1.2.1, but you have clyent 1.2.2 which is incompatible.
+# conda-repo-cli 1.0.20 requires nbformat==5.4.0, but you have nbformat 5.8.0 which is incompatible.
+# conda-repo-cli 1.0.20 requires requests==2.28.1, but you have requests 2.28.2 which is incompatible.
+
+
+# Successfully installed IPython-8.12.0 Jinja2-3.1.2 MarkupSafe-2.1.2 Pillow-9.5.0 PyWavelets-1.4.1 Send2Trash-1.8.0 
+# Shapely-2.0.1 Wave-0.0.2 absl-py-1.4.0 alabaster-0.7.13 anyio-3.6.2 appdirs-1.4.4 argon2-cffi-21.3.0 
+# argon2-cffi-bindings-21.2.0 arrow-1.2.3 asttokens-2.2.1 astunparse-1.6.3 async-generator-1.10 attrs-22.2.0 
+# audioread-3.0.0 autolab_core-1.1.1 babel-2.12.1 backcall-0.2.0 beautifulsoup4-4.12.2 black-23.3.0 bleach-6.0.0 
+# cachetools-5.3.0 certifi-2022.12.7 cffi-1.15.1 charset-normalizer-3.1.0 click-8.1.3 colorlog-6.7.0 comm-0.1.3 
+# contourpy-1.0.7 curio-1.6 cycler-0.11.0 cython-0.29.34 debugpy-1.6.7 decorator-5.1.1 defusedxml-0.7.1 dill-0.3.6 
+# docrepr-0.2.0 docutils-0.18.1 entrypoints-0.4 exceptiongroup-1.1.1 executing-1.2.0 fastjsonschema-2.16.3 
+# flatbuffers-23.3.3 fonttools-4.39.3 fqdn-1.5.1 gast-0.5.3 google-auth-2.17.3 google-auth-oauthlib-0.4.6 
+# google-pasta-0.2.0 grpcio-1.53.0 h5py-3.8.0 idna-3.4 imageio-2.27.0 imagesize-1.4.1 imgaug-0.4.0 
+# importlib-metadata-6.4.1 importlib-resources-5.12.0 iniconfig-2.0.0 ipykernel-6.22.0 ipyparallel-8.6.1 
+# ipython-genutils-0.2.0 ipywidgets-8.0.6 isoduration-20.11.0 jedi-0.18.2 joblib-1.2.0 jsonpointer-2.3 
+# jsonschema-4.17.3 jupyter-client-8.2.0 jupyter-core-5.3.0 jupyter-events-0.6.3 jupyter-server-2.5.0 
+# jupyter-server-terminals-0.4.4 jupyterlab-pygments-0.2.2 jupyterlab-widgets-3.0.7 keras-2.8.0 
+# keras-preprocessing-1.1.2 kiwisolver-1.4.4 lazy_loader-0.2 libclang-16.0.0 librosa-0.10.0.post2 
+# llvmlite-0.39.1 markdown-3.4.3 matplotlib-3.7.1 matplotlib-inline-0.1.6 mistune-2.0.5 msgpack-1.0.5 
+# multiprocess-0.70.14 mypy-extensions-1.0.0 nbclassic-0.5.5 nbclient-0.7.3 nbconvert-7.3.1 nbformat-5.8.0 
+# nest-asyncio-1.5.6 networkx-3.1 notebook-6.5.4 notebook-shim-0.2.2 numba-0.56.4 numpy-1.24.2 oauthlib-3.2.2 
+# opencv-python-4.7.0.72 opt-einsum-3.3.0 outcome-1.2.0 packaging-23.1 pandas-2.0.0 pandocfilters-1.5.0 parso-0.8.3 
+# pathspec-0.11.1 pexpect-4.8.0 pickleshare-0.7.5 platformdirs-3.2.0 pluggy-1.0.0 pooch-1.6.0 prometheus-client-0.16.0 
+# prompt-toolkit-3.0.38 protobuf-4.22.3 psutil-5.9.4 ptyprocess-0.7.0 pure-eval-0.2.2 py-1.11.0 pyasn1-0.4.8 
+# pyasn1-modules-0.2.8 pycparser-2.21 pygments-2.15.0 pyparsing-3.0.9 pyrsistent-0.19.3 pytest-7.1.2 pytest-asyncio-0.20.3 
+# python-dateutil-2.8.2 python-json-logger-2.0.7 pytz-2023.3 pyyaml-6.0 pyzmq-25.0.2 qtconsole-5.4.2 qtpy-2.3.1 requests-2.28.2 
+# requests-oauthlib-1.3.1 rfc3339-validator-0.1.4 rfc3986-validator-0.1.1 rsa-4.9 ruamel.yaml-0.17.21 ruamel.yaml.clib-0.2.7 
+# scikit-image-0.20.0 scikit-learn-1.2.2 scipy-1.10.1 setproctitle-1.3.2 setuptools-67.6.1 six-1.16.0 sniffio-1.3.0 
+# snowballstemmer-2.2.0 sortedcontainers-2.4.0 soundfile-0.12.1 soupsieve-2.4 soxr-0.3.5 sphinx-6.1.3 sphinx-rtd-theme-1.2.0 
+# sphinxcontrib-applehelp-1.0.4 sphinxcontrib-devhelp-1.0.2 sphinxcontrib-htmlhelp-2.0.1 sphinxcontrib-jquery-4.1 
+# sphinxcontrib-jsmath-1.0.1 sphinxcontrib-qthelp-1.0.3 sphinxcontrib-serializinghtml-1.1.5 stack-data-0.6.2 tensorboard-2.8.0 
+# tensorboard-data-server-0.6.1 tensorboard-plugin-wit-1.8.1 tensorflow-2.8.0 tensorflow-estimator-2.3.0 tensorflow-hub-0.13.0 
+# tensorflow-io-gcs-filesystem-0.32.0 termcolor-2.2.0 terminado-0.17.1 testpath-0.6.0 tf-estimator-nightly-2.8.0.dev2021122109 
+# threadpoolctl-3.1.0 tifffile-2023.4.12 tinycss2-1.2.1 toml-0.10.2 tomli-2.0.1 tornado-6.2 tqdm-4.65.0 traitlets-5.9.0 trio-0.22.0 
+# typing-extensions-4.5.0 tzdata-2023.3 uri-template-1.2.0 urllib3-1.26.15 wcwidth-0.2.6 webcolors-1.13 webencodings-0.5.1 
+# websocket-client-1.5.1 werkzeug-2.2.3 wheel-0.40.0 widgetsnbextension-4.0.7 wrapt-1.15.0 zipp-3.15.0

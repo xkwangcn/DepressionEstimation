@@ -81,7 +81,7 @@ def get_sampler_phq_score(phq_score_gt):
 def get_dataloaders(data_config):
 
     dataloaders = {}
-    for mode in ['train', 'validation', 'test']:
+    for mode in ['train', 'validation', 'test']: # , 'test'
         if mode == 'test':
             # for test dataset, we don't need shuffle, sampler and augmentation
             dataset = DepressionDataset(data_config[f'{mode}_ROOT_DIR'.upper()], mode,
@@ -146,6 +146,7 @@ def get_models(model_config, args, model_type=None, ckpt_path=None):
     """
     Get the Deep Visual Net as encoder backbone and the evaluator with parameters moved to GPU.
     """
+    # torch.cuda.set_device(1)
     visual_net = ConvLSTM_Visual(input_dim=model_config['VISUAL_NET']['INPUT_DIM'], 
                                  output_dim=model_config['VISUAL_NET']['OUTPUT_DIM'], 
                                  conv_hidden=model_config['VISUAL_NET']['CONV_HIDDEN'], 
@@ -167,7 +168,7 @@ def get_models(model_config, args, model_type=None, ckpt_path=None):
     # move to GPU
     visual_net = visual_net.to(args.device)
     evaluator = evaluator.to(args.device)
-
+   
     # find the model weights
     if model_config['WEIGHTS']['TYPE'].lower() == 'last':
         assert ckpt_path is not None, \
@@ -253,6 +254,8 @@ def get_crossentropy_weights(gt, evaluator_config):
         weights = np.zeros(evaluator_config['N_CLASSES'])
         labels, counts = np.unique(gt, return_counts=True)
         for i in range(len(labels)):
+            if  np.isnan(labels[i]):
+                labels[i]=0
             weights[int(labels[i])] = 1. / counts[i]
 
     elif evaluator_config['PREDICT_TYPE'] == 'phq-score':
@@ -385,6 +388,7 @@ def get_soft_gt(gt, evaluator_config):
     for i in range(len(gt)):
 
         current_gt = gt[i]
+        current_gt = torch.where(torch.isnan(current_gt), torch.full_like(current_gt, 0), current_gt)
         converted_current_gt = convert_soft_gt(current_gt, evaluator_config)
         if i == 0:
             soft_gt = converted_current_gt.unsqueeze(dim=0)

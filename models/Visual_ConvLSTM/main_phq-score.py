@@ -50,14 +50,14 @@ def main(dataloaders, visual_net, evaluator, base_logger, writer, config, args, 
             phq_subscores_pred = []
             phq_binary_pred = []
 
-            if mode == 'train':
-                visual_net.train()
-                evaluator.train()
-                torch.set_grad_enabled(True)
-            else:
-                visual_net.eval()
-                evaluator.eval()
-                torch.set_grad_enabled(False)
+            # if mode == 'train':
+            #     visual_net.train()
+            #     evaluator.train()
+            #     torch.set_grad_enabled(True)
+            # else:
+            #     visual_net.eval()
+            #     evaluator.eval()
+            #     torch.set_grad_enabled(False)
 
             total_loss = 0
             log_interval_loss = 0
@@ -313,18 +313,19 @@ if __name__ == '__main__':
                         type=str,
                         help="path to yaml file",
                         required=False,
-                        default='config/config_phq-score.yaml')
+                        default='models/Visual_ConvLSTM/config/config_phq-score.yaml')
     parser.add_argument('--device',
                         type=str,
                         help="set up torch device: 'cpu' or 'cuda' (GPU)",
                         required=False,
-                        default=torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
+                        default='cpu')
+    # torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     # remember to set the gpu device number
     parser.add_argument('--gpu',
                         type=str,
                         help='id of gpu device(s) to be used',
                         required=False,
-                        default='2, 3')
+                        default='') #2, 3
     parser.add_argument('--save',
                         type=bool,
                         help='if set true, save the best model',

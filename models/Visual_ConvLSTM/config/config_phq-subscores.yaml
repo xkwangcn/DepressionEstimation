@@ -65,22 +65,22 @@
 
 OUTPUT_DIR: exp_V+Conv2D-BiLSTM+PHQ-Subscores+improve
 SAVE_CONFIG_NAME: config_V+Conv2D-BiLSTM+PHQ-Subscores+improve.yaml
-CKPTS_DIR: /cvhci/temp/wpingcheng/ckpts_new/  # TODO
+CKPTS_DIR: /mnt/wd1/cv_dep/2017/wpingcheng/ckpts_new/  # TODO
 TYPE: V+Conv2D-BiLSTM+PHQ-Subscores+improve # TODO
 MANUAL_SEED: 1
 LOG_TITLE: Depression Detection with visual features (key points & gaze direction), Conv2D-BiLSTM, PHQ-Subscores, CrossEntropyLoss with weights, ASAM # TODO
 
 DATA:
-  TRAIN_ROOT_DIR: /cvhci/temp/wpingcheng/DAIC_WOZ-generated_database_V2/train/clipped_data/
-  VALIDATION_ROOT_DIR: /cvhci/temp/wpingcheng/DAIC_WOZ-generated_database_V2/train/original_data/
-  TEST_ROOT_DIR: /cvhci/temp/wpingcheng/DAIC_WOZ-generated_database_V2/test/clipped_data/
+  TRAIN_ROOT_DIR: /mnt/wd1/cv_dep/2017/wpingcheng/DAIC_WOZ-generated_database_V2/train/clipped_data/
+  VALIDATION_ROOT_DIR: /mnt/wd1/cv_dep/2017/wpingcheng/DAIC_WOZ-generated_database_V2/validation/clipped_data/
+  TEST_ROOT_DIR: /mnt/wd1/cv_dep/2017/wpingcheng/DAIC_WOZ-generated_database_V2/test/clipped_data/
   USE_MEL_SPECTROGRAM: False
   VISUAL_WITH_GAZE: True
   PADDING:
   RESCALE_SIZE:
   CROP_SIZE:
-  BATCH_SIZE: 500  # TODO
-  NUM_WORKERS: 0  # TODO
+  BATCH_SIZE: 64  # TODO
+  NUM_WORKERS: 1  # TODO
 
 MODEL:
   PHQ_THRESHOLD: 10
